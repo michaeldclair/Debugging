@@ -1,0 +1,187 @@
+*******************************************
+               SimpleDice
+*******************************************
+
+-In SimpleDice, I had a scanner that could ask for 1 die or 2. If you entered something other than an integer, it failed. 
+-I added a hasNextInt statement to test that the input is indeed an integer:
+
+
+System.out.println("Would you like to play with 1 die or 2 (Enter 1 or 2)?");
+		Scanner in= new Scanner(System.in);
+		int answer;
+		int int1 = 1;
+		int int2 = 2;
+			if (in.hasNextInt()){
+				answer=in.nextInt(); 
+				if (answer == 1) {
+				onegame.OneDie();}
+				if (answer == 2) {
+				onegame.TwoDice(); }
+				if (answer != 1 && answer != 2) {
+					System.out.println("That is not a 1 or a 2, Goodbye!");
+			} }
+			else {
+			System.out.println("That is not a 1 or a 2, Goodbye!"); 
+			answer=0;}
+			}
+
+
+
+
+*******************************************
+              SimpleCraps
+*******************************************
+
+-When the user had to hit any key to roll again, I did not account for all possible user entries. 
+-I corrected it by calling the next roll method with:
+
+			if (!readString.isEmpty() || readString.isEmpty()) {
+			onegame.secondRoll();
+			}
+
+
+
+ 
+
+*******************************************
+            RPNCalculator
+*******************************************
+
+-User was able to enter alphabetic characters into equation. I solved that with a "character check":
+
+	for (char ch : problem) {
+			if (ch != '1' && ch!='2' && ch!='3' && ch!='4' && ch!='5' && ch!= '6' && ch!='7' && ch!='8' && ch!='9' && ch!='0' && ch!='+' && ch!= '-' && ch!= '*' && ch!= '/') {
+				System.out.println("Error: Invalid algorithm, integers and operators only");
+				problemCounter++;
+			}
+		}
+		if (problemCounter == 0) {
+		charsAreGood();
+		}
+	}
+
+
+
+-User was able to enter operands and operators in incorrect order. I solved that by parsing the characters one by one.
+
+		public static void charsAreGood(){
+			problemCounter=0;
+			if (problem[0] == '+' || problem[0] == '-' || problem[0] == '*' || problem[0] == '/') {
+				System.out.println("Error: First character needs to be an operand");
+				problemCounter++;
+			} 
+			for (int i=1; i<problem.length; i=i+2) {
+				if (problem[i] == '+' || problem[i] == '-' || problem[i] == '*' || problem[i] == '/') {
+				System.out.println("Error: Operator found in equation position " + (i+1) + " where Operand belongs");
+				problemCounter++;
+			} }
+			for (int i=2; i<problem.length; i=i+2) {
+				if (problem[i] != '+' && problem[i] != '-' && problem[i] != '*' && problem[i] != '/') {
+				System.out.println("Error: Operand found in equation position " + (i+1) + " where Operator belongs");
+				problemCounter++;
+				} }
+
+-User was able to divide by zero. I compared all zeroes within the equation to their following operator. The calculation was only performed once the character check, algorithm check, and divide by zero check were passed.
+
+
+			for (int i=0; i<problem.length; i++){
+				if (problem[i] == '0' && problem[i+1] == '/') {
+					System.out.println("Error: Divide by zero error");
+					problemCounter++;
+				}
+			}
+			if (problemCounter == 0){
+				algorithmGood();
+			}
+		}
+
+
+
+
+*******************************************
+          BowlingGame
+*******************************************
+
+*Was able to enter negative or zero amount of games desired in constructor. Added an if statement to resolve this.
+
+public RealBowling(int aGamesIn) {
+	if (aGamesIn > 0) {
+	gamesIn = aGamesIn;}
+	else {
+		System.out.println("Invalid number of games, defaulting to three");
+		gamesIn = 3;
+	}
+}
+	
+
+
+*******************************************
+       ClassRosterAndDatabase
+*******************************************
+
+*Months Employed could be entered as a negative number. Added an if statement to check:
+
+
+if (monthsEmployed >= 0) {
+		this.monthsEmployed = monthsEmployed;}
+		else {System.out.println("Error: Need positive number of months employed");}
+
+
+
+*IDs could be set in the constructor which matched pre-existing IDs. I added an if statement in the constructor that incremented the chosen ID by one until the next available ID was open.
+
+
+this.id = id;
+		for (Student student : ourClass) {
+			if (student.id.equals(this.id)) {
+				int tempId = Integer.parseInt(this.id);
+				tempId = tempId+1;
+				String tempTempId = Integer.toString(tempId);
+				tempTempId = ("000000" + tempTempId).substring(tempTempId.length());
+				this.id = tempTempId;
+			}
+		}
+
+
+*User could input an invalid student ID to search for when printing records. I solved this by setting a flag to true when a searched ID matched an ID in the roster and printing an error if this flag was not true.
+
+
+
+	public static boolean foundFlag = false;
+
+
+	for (Student student : ourClass) {
+		if (student.id == idToBeChecked) {
+			foundFlag = true;
+			(...method to print record...)
+.
+.
+.
+
+	if (foundFlag == false) {
+		System.out.println("Invalid ID, no such student exists"); }
+
+
+
+
+*******************************************
+          Account
+*******************************************
+
+
+
+*User can enter ID that was already in use. Added an if and an incrementer in case of duplication:
+
+for (String accountId: accountIds) {
+			if (accountId.contains(arrayId)) {
+				System.out.println("Id already in use, incrementing by 1");
+				this.setId(aId+1);
+				idFound = true;
+			}
+		}
+		if (idFound == false) {
+			this.setId(aId);
+			accountIds.add(arrayId);
+
+		}
+
